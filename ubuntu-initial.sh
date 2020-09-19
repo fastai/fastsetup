@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-export DEBIAN_FRONTEND=noninteractive
 sudo add-apt-repository -y ppa:apt-fast/stable
 sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install apt-fast
