@@ -24,5 +24,13 @@ EOF
 chmod 600 ~/.ssh/config
 
 sudo cp 50unattended-upgrades /etc/apt/apt.conf.d/
-# This will reboot your machine to install upgrades
+
+# A swap file can be helpful if you don't have much RAM (i.e <1G)
+sudo fallocate -l 1G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo "/swapfile swap swap defaults 0 0" | sudo tee -a /etc/fstab
+
+# This will reboot your machine to ensure kernel upgrades are installed
 sudo shutdown -r now
