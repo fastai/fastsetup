@@ -6,6 +6,7 @@ shopt -s expand_aliases
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 echo ".cfg" >> .gitignore
 git clone --bare https://github.com/fastai/dotfiles.git .cfg/
+mv ~/.bashrc ~/.bashrc.local
 config checkout
 config config --local status.showUntrackedFiles no
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
