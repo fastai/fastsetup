@@ -6,11 +6,14 @@ sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install apt-fast
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
 sudo apt-add-repository -y https://cli.github.com/packages
-sudo apt-fast -y install vim-nox python3-powerline rsync ubuntu-drivers-common python3-pip ack-grep lsyncd wget bzip2 ca-certificates git rsync build-essential \
-  curl grep sed dpkg sudo libglib2.0-dev zlib1g-dev lsb-release tmux less htop ctags openssh-client python-is-python3 python3-pip python3-dev dos2unix gh pigz 
+sudo apt-fast -y install vim-nox python3-powerline rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git rsync build-essential \
+  curl grep sed dpkg sudo libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 python3-pip python3-dev dos2unix gh pigz 
 sudo apt-fast -y full-upgrade
 sudo cp apt-fast.conf /etc/
+sudo chown root:root /etc/apt-fast.conf
 
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
 cat << 'EOF' >> ~/.ssh/config
 Host *
   ServerAliveInterval 60
