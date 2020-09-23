@@ -78,6 +78,29 @@ mkswap /swapfile
 swapon /swapfile
 echo "/swapfile swap swap defaults 0 0" | tee -a /etc/fstab
 
-# This will reboot your machine to ensure kernel upgrades are installed
-#shutdown -r now
+cat << 'EOF' >> ~/.ssh/config
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+PermitEmptyPasswords no
+ForwardX11 yes
+PermitRootLogin no
+EOF
+
+sudo systemctl reload ssh
+
+# Enable firewall and allow ssh
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw --force enable
+
+echo We need to reboot your machine to ensure kernel upgrades are installed
+echo First, make sure you can login in a new terminal.
+echo Open a new terminal, and login as $SUDO_USER
+read -e -p "When you've confirmed you can login and run 'sudo', type 'y' to reboot. " REBOOT
+if [[ $REBOOT = y* ]]; then
+  shutdown -r now
+else
+  echo When ready, type: shutdown -r now
+fi
 

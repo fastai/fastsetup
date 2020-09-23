@@ -1,6 +1,3 @@
-#!/usr/bin/env bash
-set -e
-
 cd
 
 case "$OSTYPE" in
@@ -29,8 +26,9 @@ bash Miniconda3-latest*.sh -b
 ~/miniconda3/bin/conda init $SHELL_NAME
 rm Miniconda3-latest*.sh
 
-source ~/.bashrc
+. ~/.bashrc
 
 conda install -yq mamba
 mamba install -yq fastcore
 
+cd -
