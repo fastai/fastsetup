@@ -2,6 +2,11 @@ cd
 shopt -s expand_aliases
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 echo ".cfg" >> .gitignore
+read -e -p "Please paste a HTTPS link to your dotfiles repository (or press enter to use defaults): " DOTFILES_URL
+if [[ -z $DOTFILES_URL ]]; then
+  DOTFILES_URL=https://github.com/fastai/dotfiles.git 
+fi
+git clone --bare $DOTFILES_URL .cfg/
 git clone --bare https://github.com/fastai/dotfiles.git .cfg/
 config checkout
 config config --local status.showUntrackedFiles no
