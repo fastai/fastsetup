@@ -15,7 +15,7 @@ if [[ $SETPASS = y* ]]; then
   passwd
 fi
 
-if [[ -s ~/.ssh/authorized_keys ]]; then
+if [[ ! -s ~/.ssh/authorized_keys ]]; then
   read -e -p "Please paste your public key here: " PUB_KEY
   mkdir -p ~/.ssh
   chmod 700 ~/.ssh
