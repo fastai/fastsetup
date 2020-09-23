@@ -40,16 +40,22 @@ if [[ $SUDO_USER = "root" ]]; then
   echo "$SUDO_USER  ALL=(ALL:ALL) ALL" >> /etc/sudoers
 fi
 
-export DEBIAN_FRONTEND=noninteractive
-apt-add-repository -y https://cli.github.com/packages
-apt-add-repository -y ppa:apt-fast/stable
+CODENAME=$(lsb_release -cs)
+cat >> /etc/apt/sources.list << EOF
+deb https://cli.github.com/packages $CODENAME main
+deb http://ppa.launchpad.net/apt-fast/stable/ubuntu $CODENAME main
+EOF
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C99B11DEB97541F0 1EE2FF37CA8DA16B
 apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
 apt-get update
+
+export DEBIAN_FRONTEND=noninteractive
 apt-get -y install apt-fast
 cp apt-fast.conf /etc/
 chown root:root /etc/apt-fast.conf
 apt-fast -y install vim-nox python3-powerline rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git rsync build-essential \
-  curl grep sed dpkg libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 python3-pip python3-dev dos2unix gh pigz 
+  software-properties-common curl grep sed dpkg libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 \
+  python3-pip python3-dev dos2unix gh pigz 
 apt-fast -y full-upgrade
 
 mkdir -p ~/.ssh
@@ -86,13 +92,13 @@ PermitEmptyPasswords no
 PermitRootLogin no
 EOF
 
-sudo systemctl reload ssh
+systemctl reload ssh
 
 # Enable firewall and allow ssh
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw allow ssh
-sudo ufw --force enable
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw --force enable
 
 echo We need to reboot your machine to ensure kernel upgrades are installed
 echo First, make sure you can login in a new terminal.
