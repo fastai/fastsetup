@@ -46,16 +46,16 @@ deb https://cli.github.com/packages $CODENAME main
 deb http://ppa.launchpad.net/apt-fast/stable/ubuntu $CODENAME main
 EOF
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C99B11DEB97541F0 1EE2FF37CA8DA16B
-apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
 apt-get update
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y install apt-fast
 cp apt-fast.conf /etc/
 chown root:root /etc/apt-fast.conf
+apt-fast -y install python
 apt-fast -y install vim-nox python3-powerline rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git rsync build-essential \
   software-properties-common curl grep sed dpkg libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 \
-  python3-pip python3-dev dos2unix gh pigz 
+  python3-pip python3-dev dos2unix gh pigz ufw
 env DEBIAN_FRONTEND=noninteractive APT_LISTCHANGES_FRONTEND=mail apt-fast full-upgrade -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'
 
 mkdir -p ~/.ssh
@@ -81,8 +81,12 @@ cp 50unattended-upgrades /etc/apt/apt.conf.d/
 fallocate -l 1G /swapfile
 chmod 600 /swapfile
 mkswap /swapfile
-swapon /swapfile
-echo "/swapfile swap swap defaults 0 0" | tee -a /etc/fstab
+if swapon /swapfile; then
+  echo "/swapfile swap swap defaults 0 0" | tee -a /etc/fstab
+else
+  echo "Your administrator has disabled adding a swap file. This is just FYI, it is not an error."
+  rm -f /swapfile
+fi
 
 perl -ni.bak -e 'print unless /^\s*(PermitEmptyPasswords|PermitRootLogin|PasswordAuthentication|ChallengeResponseAuthentication)/' /etc/ssh/sshd_config
 cat << 'EOF' >> /etc/ssh/sshd_config
