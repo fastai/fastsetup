@@ -57,7 +57,7 @@ chown root:root /etc/apt-fast.conf
 apt-fast -y install python
 apt-fast -y install vim-nox python3-powerline rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git rsync build-essential \
   software-properties-common curl grep sed dpkg libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 \
-  python3-pip python3-dev dos2unix gh pigz ufw bash-completion
+  python3-pip python3-dev dos2unix gh pigz ufw bash-completion ubuntu-release-upgrader-core
 env DEBIAN_FRONTEND=noninteractive APT_LISTCHANGES_FRONTEND=mail apt-fast full-upgrade -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'
 sudo apt -y autoremove
 
