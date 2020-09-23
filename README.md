@@ -4,7 +4,7 @@
 First, do basic ubuntu configuration, such as updating packages, and turning on auto-updates:
 
 ```
-sudo apt update && sudo apt -y install git
+sudo apt update && sudo apt -y install git rsync
 git clone https://github.com/fastai/fastsetup.git
 cd fastsetup
 sudo ./ubuntu-initial.sh
