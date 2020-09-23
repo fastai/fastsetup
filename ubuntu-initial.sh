@@ -78,11 +78,11 @@ mkswap /swapfile
 swapon /swapfile
 echo "/swapfile swap swap defaults 0 0" | tee -a /etc/fstab
 
-cat << 'EOF' >> ~/.ssh/config
+perl -ni.bak -e 'print unless /^\s*(PermitEmptyPasswords|PermitRootLogin|PasswordAuthentication|ChallengeResponseAuthentication)/' /etc/ssh/sshd_config
+cat << 'EOF' >> /etc/ssh/sshd_config
 PasswordAuthentication no
 ChallengeResponseAuthentication no
 PermitEmptyPasswords no
-ForwardX11 yes
 PermitRootLogin no
 EOF
 
