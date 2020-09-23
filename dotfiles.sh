@@ -8,6 +8,7 @@ config config --local status.showUntrackedFiles no
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 echo "source ~/.bashrc.local" >> ~/.bashrc
 . ~/.bashrc
+rm -f README.md
 
 read -e -p "Enter your name (for git configuration): " NAME
 if [[ $NAME ]]; then
