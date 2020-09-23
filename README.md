@@ -4,6 +4,7 @@
 First, do basic ubuntu configuration, such as updating packages, and turning on auto-updates:
 
 ```
+sudo apt update && sudo apt -y install git
 git clone https://github.com/fastai/fastsetup.git
 cd fastsetup
 ./ubuntu-initial.sh
