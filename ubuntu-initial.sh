@@ -38,6 +38,8 @@ if [[ $SUDO_USER = "root" ]]; then
   cp /root/.ssh/authorized_keys ~/.ssh/
   chmod 400 ~/.ssh/authorized_keys
   echo "$SUDO_USER  ALL=(ALL:ALL) ALL" >> /etc/sudoers
+  cp -r "$PWD" ~/
+  chown -R $SUDO_USER:$SUDO_USER ~/
 fi
 
 CODENAME=$(lsb_release -cs)
@@ -55,8 +57,9 @@ chown root:root /etc/apt-fast.conf
 apt-fast -y install python
 apt-fast -y install vim-nox python3-powerline rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git rsync build-essential \
   software-properties-common curl grep sed dpkg libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 \
-  python3-pip python3-dev dos2unix gh pigz ufw
+  python3-pip python3-dev dos2unix gh pigz ufw bash-completion
 env DEBIAN_FRONTEND=noninteractive APT_LISTCHANGES_FRONTEND=mail apt-fast full-upgrade -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'
+sudo apt -y autoremove
 
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
