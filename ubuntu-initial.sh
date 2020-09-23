@@ -15,9 +15,9 @@ if [[ $SETPASS = y* ]]; then
   passwd
 fi
 
-if [[ ! -f ~/.ssh/authorized_keys ]]; then
+if [[ -s ~/.ssh/authorized_keys ]]; then
   read -e -p "Please paste your public key here: " PUB_KEY
-  mkdir ~/.ssh
+  mkdir -p ~/.ssh
   chmod 700 ~/.ssh
   echo $PUB_KEY > ~/.ssh/authorized_keys
   chmod 400 ~/.ssh/authorized_keys
@@ -33,7 +33,7 @@ if [[ $SUDO_USER = "root" ]]; then
   fi
   adduser $SUDO_USER --gecos ''
   HOME=/home/$SUDO_USER
-  mkdir ~/.ssh
+  mkdir -p ~/.ssh
   chmod 700 ~/.ssh
   cp /root/.ssh/authorized_keys ~/.ssh/
   chmod 400 ~/.ssh/authorized_keys
