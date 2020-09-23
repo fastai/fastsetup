@@ -38,6 +38,8 @@ if [[ $SUDO_USER = "root" ]]; then
   cp /root/.ssh/authorized_keys ~/.ssh/
   chmod 400 ~/.ssh/authorized_keys
   echo "$SUDO_USER  ALL=(ALL:ALL) ALL" >> /etc/sudoers
+  cp -r /root/fastsetup ~
+  chown deploy:deploy ~/fastsetup
 fi
 
 CODENAME=$(lsb_release -cs)
