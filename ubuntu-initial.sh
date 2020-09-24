@@ -15,14 +15,6 @@ if [[ $SETPASS = y* ]]; then
   passwd
 fi
 
-if [[ ! -s ~/.ssh/authorized_keys ]]; then
-  read -e -p "Please paste your public key here: " PUB_KEY
-  mkdir -p ~/.ssh
-  chmod 700 ~/.ssh
-  echo $PUB_KEY > ~/.ssh/authorized_keys
-  chmod 400 ~/.ssh/authorized_keys
-fi
-
 if [[ $SUDO_USER = "root" ]]; then
   echo "You are running as root, so let's create a new user for you"
 
@@ -33,13 +25,17 @@ if [[ $SUDO_USER = "root" ]]; then
   fi
   adduser $SUDO_USER --gecos ''
   HOME=/home/$SUDO_USER
-  mkdir -p ~/.ssh
-  chmod 700 ~/.ssh
-  cp /root/.ssh/authorized_keys ~/.ssh/
-  chmod 400 ~/.ssh/authorized_keys
   echo "$SUDO_USER  ALL=(ALL:ALL) ALL" >> /etc/sudoers
   cp -r "$PWD" ~/
   chown -R $SUDO_USER:$SUDO_USER ~/
+fi
+
+if [[ ! -s ~/.ssh/authorized_keys ]]; then
+  read -e -p "Please paste your public key here: " PUB_KEY
+  mkdir -p ~/.ssh
+  chmod 700 ~/.ssh
+  echo $PUB_KEY > ~/.ssh/authorized_keys
+  chmod 600 ~/.ssh/authorized_keys
 fi
 
 CODENAME=$(lsb_release -cs)
