@@ -20,7 +20,7 @@ if [[ $NAME ]]; then
 fi
 read -e -p "Enter your email (for git configuration): " EMAIL
 if [[ $EMAIL ]]; then
-  git config --global user.email "$EMAIL"
+  git config --global user.email $EMAIL
 fi
 
 cd -
