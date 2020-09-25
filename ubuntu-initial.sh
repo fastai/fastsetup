@@ -30,7 +30,7 @@ if [[ $SUDO_USER = "root" ]]; then
   chown -R $SUDO_USER:$SUDO_USER ~/
 fi
 
-if [[ ! -s ~/.ssh/authorized_keys ]]; then
+if [[ ! -s /root/.ssh/authorized_keys ]]; then
   read -e -p "Please paste your public key here: " PUB_KEY
   mkdir -p ~/.ssh
   chmod 700 ~/.ssh
