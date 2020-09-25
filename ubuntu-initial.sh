@@ -36,6 +36,10 @@ if [[ ! -s /root/.ssh/authorized_keys ]]; then
   chmod 700 ~/.ssh
   echo $PUB_KEY > ~/.ssh/authorized_keys
   chmod 600 ~/.ssh/authorized_keys
+else
+  cp -r /root/.ssh ~
+  chmod 700 ~/.ssh
+  chmod 600 ~/.ssh/authorized_keys
 fi
 
 CODENAME=$(lsb_release -cs)
