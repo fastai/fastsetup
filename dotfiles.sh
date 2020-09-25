@@ -16,11 +16,11 @@ echo "source ~/.bashrc.local" >> ~/.bashrc
 
 read -e -p "Enter your name (for git configuration): " NAME
 if [[ $NAME ]]; then
-  git config --global user.name $NAME
+  git config --global user.name "$NAME"
 fi
 read -e -p "Enter your email (for git configuration): " EMAIL
 if [[ $EMAIL ]]; then
-  git config --global user.email $EMAIL
+  git config --global user.email "$EMAIL"
 fi
 
 cd -
