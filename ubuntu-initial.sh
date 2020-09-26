@@ -25,6 +25,7 @@ if [[ $SUDO_USER = "root" ]]; then
     exit 1
   fi
   adduser $SUDO_USER --gecos ''
+  usermod -aG sudo $SUDO_USER
   HOME=/home/$SUDO_USER
   echo "$SUDO_USER  ALL=(ALL:ALL) ALL" >> /etc/sudoers
   cp -r "$PWD" ~/
