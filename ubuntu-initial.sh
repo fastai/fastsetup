@@ -76,6 +76,11 @@ EOF
 chmod 600 ~/.ssh/config
 chown -R $SUDO_USER:$SUDO_USER ~/.ssh
 
+cat > /etc/apt/apt.conf.d/10periodic << EOF
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "7";
+EOF
 cp 50unattended-upgrades /etc/apt/apt.conf.d/
 
 # A swap file can be helpful if you don't have much RAM (i.e <1G)
