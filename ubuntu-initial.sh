@@ -10,12 +10,6 @@ if ! grep -q $(hostname) /etc/hosts; then
   echo "127.0.0.1 $(hostname)" >> /etc/hosts
 fi
 
-read -e -p "We recommend setting your password. Set it now? [y/n] " -i y SETPASS
-if [[ $SETPASS = y* ]]; then
-  passwd
-fi
-echo 'Defaults        timestamp_timeout=3600' >> /etc/sudoers
-
 if [[ $SUDO_USER = "root" ]]; then
   echo "You are running as root, so let's create a new user for you"
 
@@ -31,6 +25,12 @@ if [[ $SUDO_USER = "root" ]]; then
   cp -r "$PWD" ~/
   chown -R $SUDO_USER:$SUDO_USER ~/
 fi
+
+read -e -p "We recommend setting your password. Set it now? [y/n] " -i y SETPASS
+if [[ $SETPASS = y* ]]; then
+  passwd $SUDO_USER
+fi
+echo 'Defaults        timestamp_timeout=3600' >> /etc/sudoers
 
 if [[ ! -s ~/.ssh/authorized_keys ]]; then
   read -e -p "Please paste your public key here: " PUB_KEY
