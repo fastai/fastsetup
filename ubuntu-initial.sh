@@ -99,19 +99,21 @@ EOF
 
 systemctl reload ssh
 
+# This is often used to setup passwordless sudo; so disable it
+rm -f /etc/sudoers.d/90-cloud-init-users
+
 # Enable firewall and allow ssh
 ufw default deny incoming
 ufw default allow outgoing
 ufw allow ssh
 ufw --force enable
 
-echo We need to reboot your machine to ensure kernel upgrades are installed
-echo First, make sure you can login in a new terminal.
-echo Open a new terminal, and login as $SUDO_USER
-read -e -p "When you've confirmed you can login and run 'sudo', type 'y' to reboot. " REBOOT
+echo 'We need to reboot your machine to ensure kernel upgrades are installed'
+echo 'First, make sure you can login in a new terminal, and that you can run `sudo -i`.'
+echo "Open a new terminal, and login as $SUDO_USER"
+read -e -p 'When you have confirmed you can login and run `sudo -i`, type "y" to reboot. ' REBOOT
 if [[ $REBOOT = y* ]]; then
   shutdown -r now
 else
-  echo When ready, type: shutdown -r now
+  echo You chose not to reboot now. When ready, type: shutdown -r now
 fi
-
