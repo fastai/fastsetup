@@ -14,6 +14,7 @@ read -e -p "We recommend setting your password. Set it now? [y/n] " -i y SETPASS
 if [[ $SETPASS = y* ]]; then
   passwd
 fi
+echo 'Defaults        timestamp_timeout=3600' >> /etc/sudoers
 
 if [[ $SUDO_USER = "root" ]]; then
   echo "You are running as root, so let's create a new user for you"
