@@ -13,7 +13,11 @@ fi
 if [[ $SUDO_USER = "root" ]]; then
   echo "You are running as root, so let's create a new user for you"
 
-  read -e -p "Please enter the username for your new user: " SUDO_USER
+  if [[ $NEWUSER ]]; then
+    SUDO_USER=$NEWUSER
+  else
+    read -e -p "Please enter the username for your new user: " SUDO_USER
+  fi
   if [[ -z $SUDO_USER ]]; then
     echo Empty username not permitted
     exit 1
@@ -26,14 +30,20 @@ if [[ $SUDO_USER = "root" ]]; then
   chown -R $SUDO_USER:$SUDO_USER ~/
 fi
 
-read -e -p "We recommend setting your password. Set it now? [y/n] " -i y SETPASS
-if [[ $SETPASS = y* ]]; then
-  passwd $SUDO_USER
+if [[ $NEWPASS ]]; then
+  echo "$SUDO_USER:$NEWPASS" | chpasswd
+else
+  read -e -p "We recommend setting your password. Set it now? [y/n] " -i y SETPASS
+  if [[ $SETPASS = y* ]]; then
+    passwd $SUDO_USER
+  fi
 fi
 echo 'Defaults        timestamp_timeout=3600' >> /etc/sudoers
 
 if [[ ! -s ~/.ssh/authorized_keys ]]; then
-  read -e -p "Please paste your public key here: " PUB_KEY
+  if [[ -z $PUB_KEY ]]; then
+    read -e -p "Please paste your public key here: " PUB_KEY
+  fi
   mkdir -p ~/.ssh
   chmod 700 ~/.ssh
   echo $PUB_KEY > ~/.ssh/authorized_keys
@@ -116,7 +126,9 @@ ufw --force enable
 echo 'We need to reboot your machine to ensure kernel upgrades are installed'
 echo 'First, make sure you can login in a new terminal, and that you can run `sudo -i`.'
 echo "Open a new terminal, and login as $SUDO_USER"
-read -e -p 'When you have confirmed you can login and run `sudo -i`, type "y" to reboot. ' REBOOT
+if [[ -z $REBOOT ]]; then
+  read -e -p 'When you have confirmed you can login and run `sudo -i`, type "y" to reboot. ' REBOOT
+fi
 if [[ $REBOOT = y* ]]; then
   shutdown -r now
 else
