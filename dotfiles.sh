@@ -7,7 +7,6 @@ if [[ -z $DOTFILES_URL ]]; then
   DOTFILES_URL=https://github.com/fastai/dotfiles.git 
 fi
 git clone --bare $DOTFILES_URL .cfg/
-git clone --bare https://github.com/fastai/dotfiles.git .cfg/
 config checkout
 config config --local status.showUntrackedFiles no
 if [[ -s ~/.vimrc ]]; then                                                      
