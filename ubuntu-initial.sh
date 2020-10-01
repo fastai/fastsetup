@@ -60,8 +60,11 @@ apt-get update
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get -qy install apt-fast
-cp apt-fast.conf /etc/
-chown root:root /etc/apt-fast.conf
+cp logrotate.conf apt-fast.conf /etc/
+cp journald.conf /etc/systemd/
+cp 50unattended-upgrades 10periodic /etc/apt/apt.conf.d/
+chown root:root /etc/{logrotate,apt-fast}.conf /etc/systemd/journald.conf /etc/apt/apt.conf.d/{50unattended-upgrades,10periodic}
+
 apt-fast -qy install python
 apt-fast -qy install vim-nox python3-powerline rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git build-essential \
   software-properties-common curl grep sed dpkg libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 \
@@ -85,13 +88,6 @@ Host github.com
 EOF
 chmod 600 ~/.ssh/config
 chown -R $SUDO_USER:$SUDO_USER ~/.ssh
-
-cat > /etc/apt/apt.conf.d/10periodic << EOF
-APT::Periodic::Update-Package-Lists "1";
-APT::Periodic::Download-Upgradeable-Packages "1";
-APT::Periodic::AutocleanInterval "7";
-EOF
-cp 50unattended-upgrades /etc/apt/apt.conf.d/
 
 # A swap file can be helpful if you don't have much RAM (i.e <1G)
 fallocate -l 1G /swapfile
