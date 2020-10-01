@@ -11,3 +11,5 @@ Unattended-Upgrade::Package-Blacklist {
 
 Unattended-Upgrade::DevRelease "auto";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+Unattended-Upgrade::MailOnlyOnError "true";
+

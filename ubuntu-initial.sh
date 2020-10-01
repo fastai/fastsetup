@@ -63,6 +63,19 @@ apt-get -qy install apt-fast
 cp logrotate.conf apt-fast.conf /etc/
 cp journald.conf /etc/systemd/
 cp 50unattended-upgrades 10periodic /etc/apt/apt.conf.d/
+if [[ -z $EMAIL ]]; then
+  read -e -p "Enter your email address: " EMAIL
+fi
+cat >> /etc/apt/apt.conf.d/50unattended << EOF
+Unattended-Upgrade::Mail "$EMAIL";
+EOF
+if [[ -z $AUTO_REBOOT ]]; then
+  read -e -p "Reboot automatically when required for upgrades? [y/n] " -i y AUTO_REBOOT
+fi
+if [[ $AUTO_REBOOT = y* ]]; then
+  echo 'Unattended-Upgrade::Automatic-Reboot "true";' >> /etc/apt/apt.conf.d/50unattended
+fi
+
 chown root:root /etc/{logrotate,apt-fast}.conf /etc/systemd/journald.conf /etc/apt/apt.conf.d/{50unattended-upgrades,10periodic}
 
 apt-fast -qy install python
