@@ -4,7 +4,7 @@ fail () { echo $1 >&2; exit 1; }
 [[ $(id -u) = 0 ]] || [[ -z $SUDO_USER ]] || fail "Please run 'sudo $0'"
 
 [[ -z $NEWHOST ]] && read -e -p "Enter hostname to set: " NEWHOST
-[[ $NEWHOST = *.* ]] || fail "hostname must contain a '.'"
+[[ $NEWHOST = *.*.* ]] || fail "hostname must contain two '.'s"
 hostname $NEWHOST
 echo $NEWHOST > /etc/hostname
 grep -q $NEWHOST /etc/hosts || echo "127.0.0.1 $NEWHOST" >> /etc/hosts
