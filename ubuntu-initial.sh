@@ -113,6 +113,8 @@ ufw default allow outgoing
 ufw allow ssh
 ufw --force enable
 
+python -m pip install pip -Uq
+
 echo 'We need to reboot your machine to ensure kernel upgrades are installed'
 echo 'First, make sure you can login in a new terminal, and that you can run `sudo -i`.'
 echo "Open a new terminal, and login as $SUDO_USER"
