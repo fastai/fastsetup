@@ -7,7 +7,10 @@ apt-fast install -y dkimproxy procmail
 apt remove -y amavisd-new
 apt -y autoremove
 
-$DOMAIN=$(hostname -d)
+cp smtpd.conf /etc/
+chmod 640 smtpd.conf
+chown root:root /etc/smtpd.conf
+DOMAIN=$(hostname -d)
 echo "domain  $DOMAIN" >> /etc/dkimproxy/dkimproxy_out.conf
 echo DKIMPROXYGROUP=ssl-cert >> /etc/default/dkimproxy
 
