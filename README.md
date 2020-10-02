@@ -13,12 +13,18 @@ sudo ./ubuntu-initial.sh
 
 Then set up [dotfiles](https://github.com/fastai/dotfiles):
 
-```
-source dotfiles.sh
-```
+    source dotfiles.sh
 
 ...and set up conda:
 
-```
-source setup-conda.sh
-```
+    source setup-conda.sh
+
+To set up email:
+
+    sudo ./opensmtpd-install.sh
+
+To test email, create a text file `msg` containing a message to send, then send it with:
+
+    cat msg |  mail -r "x@$(hostname -d)" -s 'subject' EMAIL_ADDR
+
+Replace `EMAIL_ADDR` with an address to send to. You can get a useful testing address from [mail-tester](https://www.mail-tester.com/).
