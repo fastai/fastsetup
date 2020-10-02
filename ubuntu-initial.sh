@@ -1,27 +1,18 @@
 #!/usr/bin/env bash
 set -e
+fail () { echo $1 >&2; exit 1; }
+[[ $(id -u) = 0 ]] || [[ -z $SUDO_USER ]] || fail "Please run 'sudo $0'"
 
-if ! [[ $(id -u) = 0 ]] || [[ -z $SUDO_USER ]]; then
-  echo "Please run 'sudo $0'" >&2
-  exit 1
-fi
-
-if ! grep -q $(hostname) /etc/hosts; then
-  echo "127.0.0.1 $(hostname)" >> /etc/hosts
-fi
+[[ -z $NEWHOST ]] && read -e -p "Enter hostname to set: " -i y NEWHOST
+[[ $NEWHOST = *.* ]] || fail "hostname must contain a '.'"
+hostname $NEWHOST
+echo $NEWHOST > /etc/hostname
+grep -q $NEWHOST /etc/hosts || echo "127.0.0.1 $NEWHOST" >> /etc/hosts
 
 if [[ $SUDO_USER = "root" ]]; then
   echo "You are running as root, so let's create a new user for you"
-
-  if [[ $NEWUSER ]]; then
-    SUDO_USER=$NEWUSER
-  else
-    read -e -p "Please enter the username for your new user: " SUDO_USER
-  fi
-  if [[ -z $SUDO_USER ]]; then
-    echo Empty username not permitted
-    exit 1
-  fi
+  [[ $NEWUSER ]] && SUDO_USER=$NEWUSER || read -e -p "Please enter the username for your new user: " SUDO_USER
+  [[ -z $SUDO_USER ]] || fail Empty username not permitted
   adduser $SUDO_USER --gecos ''
   usermod -aG sudo $SUDO_USER
   HOME=/home/$SUDO_USER
@@ -33,17 +24,13 @@ fi
 if [[ $NEWPASS ]]; then
   echo "$SUDO_USER:$NEWPASS" | chpasswd
 else
-  read -e -p "We recommend setting your password. Set it now? [y/n] " -i y SETPASS
-  if [[ $SETPASS = y* ]]; then
-    passwd $SUDO_USER
-  fi
+  read -e -p "We recommend setting your password. Set it now? [y/n] " -i y
+  [[ $REPLY = y* ]] && passwd $SUDO_USER
 fi
 echo 'Defaults        timestamp_timeout=3600' >> /etc/sudoers
 
 if [[ ! -s ~/.ssh/authorized_keys ]]; then
-  if [[ -z $PUB_KEY ]]; then
-    read -e -p "Please paste your public key here: " PUB_KEY
-  fi
+  [[ -z $PUB_KEY ]] && read -e -p "Please paste your public key here: " PUB_KEY
   mkdir -p ~/.ssh
   chmod 700 ~/.ssh
   echo $PUB_KEY > ~/.ssh/authorized_keys
@@ -63,18 +50,12 @@ apt-get -qy install apt-fast
 cp logrotate.conf apt-fast.conf /etc/
 cp journald.conf /etc/systemd/
 cp 50unattended-upgrades 10periodic /etc/apt/apt.conf.d/
-if [[ -z $EMAIL ]]; then
-  read -e -p "Enter your email address: " EMAIL
-fi
+[[ -z $EMAIL ]] && read -e -p "Enter your email address: " EMAIL
 cat >> /etc/apt/apt.conf.d/50unattended << EOF
 Unattended-Upgrade::Mail "$EMAIL";
 EOF
-if [[ -z $AUTO_REBOOT ]]; then
-  read -e -p "Reboot automatically when required for upgrades? [y/n] " -i y AUTO_REBOOT
-fi
-if [[ $AUTO_REBOOT = y* ]]; then
-  echo 'Unattended-Upgrade::Automatic-Reboot "true";' >> /etc/apt/apt.conf.d/50unattended
-fi
+[[ -z $AUTO_REBOOT ]] && read -e -p "Reboot automatically when required for upgrades? [y/n] " -i y AUTO_REBOOT
+[[ $AUTO_REBOOT = y* ]] && echo 'Unattended-Upgrade::Automatic-Reboot "true";' >> /etc/apt/apt.conf.d/50unattended
 
 chown root:root /etc/{logrotate,apt-fast}.conf /etc/systemd/journald.conf /etc/apt/apt.conf.d/{50unattended-upgrades,10periodic}
 
@@ -120,7 +101,6 @@ ChallengeResponseAuthentication no
 PermitEmptyPasswords no
 PermitRootLogin no
 EOF
-
 systemctl reload ssh
 
 # This is often used to setup passwordless sudo; so disable it
@@ -135,11 +115,5 @@ ufw --force enable
 echo 'We need to reboot your machine to ensure kernel upgrades are installed'
 echo 'First, make sure you can login in a new terminal, and that you can run `sudo -i`.'
 echo "Open a new terminal, and login as $SUDO_USER"
-if [[ -z $REBOOT ]]; then
-  read -e -p 'When you have confirmed you can login and run `sudo -i`, type "y" to reboot. ' REBOOT
-fi
-if [[ $REBOOT = y* ]]; then
-  shutdown -r now
-else
-  echo You chose not to reboot now. When ready, type: shutdown -r now
-fi
+[[ -z $REBOOT ]] && read -e -p 'When you have confirmed you can login and run `sudo -i`, type "y" to reboot. ' REBOOT
+[[ $REBOOT = y* ]] && shutdown -r now || echo You chose not to reboot now. When ready, type: shutdown -r now
