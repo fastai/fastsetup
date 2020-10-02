@@ -14,3 +14,4 @@ systemctl restart opensmtpd.service
 systemctl restart dkimproxy.service
 echo "This is your public key - copy it into a TXT DNS record 'postfix._domainkey.$DOMAIN':"
 perl -ne '!/^---/ && chomp && print' /var/lib/dkimproxy/public.key && echo
+
