@@ -28,5 +28,7 @@ fi
 if [[ $EMAIL ]]; then
   git config --global user.email "$EMAIL"
 fi
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=3600'
 
 cd -
