@@ -3,7 +3,7 @@ set -e
 fail () { echo $1 >&2; exit 1; }
 [[ $(id -u) = 0 ]] || [[ -z $SUDO_USER ]] || fail "Please run 'sudo $0'"
 
-[[ -z $NEWHOST ]] && read -e -p "Enter hostname to set: " -i y NEWHOST
+[[ -z $NEWHOST ]] && read -e -p "Enter hostname to set: " NEWHOST
 [[ $NEWHOST = *.* ]] || fail "hostname must contain a '.'"
 hostname $NEWHOST
 echo $NEWHOST > /etc/hostname
@@ -37,6 +37,7 @@ if [[ ! -s ~/.ssh/authorized_keys ]]; then
   echo $PUB_KEY > ~/.ssh/authorized_keys
   chmod 600 ~/.ssh/authorized_keys
 fi
+[[ -z $AUTO_REBOOT ]] && read -e -p "Reboot automatically when required for upgrades? [y/n] " -i y AUTO_REBOOT
 
 CODENAME=$(lsb_release -cs)
 cat >> /etc/apt/sources.list << EOF
@@ -54,7 +55,6 @@ cp 50unattended-upgrades 10periodic /etc/apt/apt.conf.d/
 cat >> /etc/apt/apt.conf.d/50unattended << EOF
 Unattended-Upgrade::Mail "$EMAIL";
 EOF
-[[ -z $AUTO_REBOOT ]] && read -e -p "Reboot automatically when required for upgrades? [y/n] " -i y AUTO_REBOOT
 [[ $AUTO_REBOOT = y* ]] && echo 'Unattended-Upgrade::Automatic-Reboot "true";' >> /etc/apt/apt.conf.d/50unattended
 
 chown root:root /etc/{logrotate,apt-fast}.conf /etc/systemd/journald.conf /etc/apt/apt.conf.d/{50unattended-upgrades,10periodic}
