@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -e
 fail () { echo $1 >&2; exit 1; }
 [[ $(id -u) = 0 ]] || fail "Please run as root (i.e 'sudo $0')"
