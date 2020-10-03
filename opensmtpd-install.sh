@@ -28,8 +28,13 @@ echo DKIMPROXYGROUP=ssl-cert >> /etc/default/dkimproxy
 systemctl restart opensmtpd.service
 systemctl restart dkimproxy.service
 
-echo "If you want to open your mail server to external IPs, run 'sudo ufw allow 587'"
-echo
-echo "This is your public key - copy it into a TXT DNS record 'postfix._domainkey.$DOMAIN':"
-perl -ne '!/^---/ && chomp && print' /var/lib/dkimproxy/public.key && echo
+SMTPIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+DKIMPUB=$(perl -ne '!/^---/ && chomp && print' /var/lib/dkimproxy/public.key)
+perl -pe "s/SMTPIP/$SMTPIP/g" domains > mydomains
+perl -pi -e "s/DOMAIN/$DOMAIN/g" mydomains
+perl -pi -e "s/ROOTMAIL/$ROOTMAIL/g" mydomains
+perl -pi -e "s|DKIMPUB|$DKIMPUB|g" mydomains
+
+echo "If you want to open your mail server to external IPs, run 'sudo ufw allow 587'."
+echo "Your domain file for importing into Cloudflare et al is saved to 'mydomains'."
 
