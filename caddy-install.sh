@@ -18,11 +18,24 @@ fi
 sudo apt update
 sudo apt install -y caddy
 
+CADDYAUTH=""
+
 read -e -p "We recommend setting a basic HTTP auth in Caddy. Set it now? [y/n] " -i y
 if [[ $REPLY = y* ]]; then
   [[ -z $CADDYUSER ]] && read -e -p "Enter user for HTTP auth: " CADDYUSER
   [[ -z $CADDYPASSWD ]] && read -e -p "Enter password for HTTP auth: " CADDYPASSWD
   export CADDYHASHED=$(caddy hash-password --plaintext "$CADDYPASSWD")
+  CADDYAUTH=$(cat <<EOF
+  # basic auth for the server, to change it:
+  # 1. run the command: caddy hash-password
+  # 2. enter the password
+  # 3. copy the hash and replace the one below
+  # 4. replace the user with the username you want
+  basicauth {
+      $CADDYUSER $CADDYHASHED
+  }
+EOF
+)
 fi
 
 [[ -z $DOMAIN ]] && read -e -p "Enter domain name to set: " DOMAIN
@@ -43,15 +56,7 @@ $DOMAIN {
 	lb_policy least_conn
   }
 
-  # basic auth for the server, to change it:
-  # 1. run the command: caddy hash-password
-  # 2. enter the password
-  # 3. copy the hash and replace the one below
-  # 4. replace the user with the username you want
-  basicauth {
-      $CADDYUSER $CADDYHASHED
-  }
-
+$CADDYAUTH
 
   # log connections to the server
   log {
