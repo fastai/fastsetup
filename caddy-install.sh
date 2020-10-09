@@ -25,7 +25,6 @@ if [[ $REPLY = y* ]]; then
   [[ -z $CADDYUSER ]] && read -e -p "Enter user for HTTP auth: " CADDYUSER
   [[ -z $CADDYPASSWD ]] && read -e -p "Enter password for HTTP auth: " CADDYPASSWD
   export CADDYHASHED=$(caddy hash-password --plaintext "$CADDYPASSWD")
-  # need to check this does not break because of newlines
   CADDYAUTH=$(cat <<EOF
   # basic auth for the server, to change it:
   # 1. run the command: caddy hash-password
@@ -77,13 +76,16 @@ EOF
 echo "Openning ports 80(http)/443(https) in the firewall"
 sudo ufw allow 80,443/tcp
 
-read -e -p "Do you want to start Caddy now? [y/n] " -i y
-if [[ $REPLY = y* ]]; then
-  cd
-  caddy start
-fi
+# read -e -p "Do you want to start Caddy now? [y/n] " -i y
+# if [[ $REPLY = y* ]]; then
+# caddy starts automatically after installation when installed
+# from a package manager
+# so only a reload is needed
+cd
+caddy reload
+# fi
 
-echo "If you want to change the Caddyfile, run caddy reload afterwards"
+echo "If you want to change the Caddyfile, run 'caddy reload' afterwards"
 
 
 # Caddy can be set up as a service: https://caddyserver.com/docs/install#install
