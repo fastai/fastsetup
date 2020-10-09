@@ -68,6 +68,9 @@ www.$DOMAIN {
 }
 EOF
 
+echo "Openning ports 80(http)/443(https) in the firewall"
+sudo ufw allow 80,443/tcp
+
 read -e -p "Do you want to start Caddy now? [y/n] " -i y
 if [[ $REPLY = y* ]]; then
   cd
