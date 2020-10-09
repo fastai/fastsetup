@@ -24,7 +24,8 @@ if [[ $REPLY = y* ]]; then
 fi
 
 [[ -z $DOMAIN ]] && read -e -p "Enter domain name to set: " DOMAIN
-# TODO: check if domain has www. or not
+# strip www. prefix from the domain name if it exists
+DOMAIN=${DOMAIN#"www."}
 [[ -z $UPSTREAMPORT ]] && read -e -p "Enter the port where your app is running: " UPSTREAMPORT
 
 cat << 'EOF' >> ~/Caddyfile
