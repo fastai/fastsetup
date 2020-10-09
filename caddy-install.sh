@@ -24,7 +24,7 @@ if [[ $REPLY = y* ]]; then
 fi
 
 [[ -z $DOMAIN ]] && read -e -p "Enter domain name to set: " DOMAIN
-# TODO: check if domain has www. or not before
+# TODO: check if domain has www. or not
 [[ -z $UPSTREAMPORT ]] && read -e -p "Enter the port where your app is running: " UPSTREAMPORT
 
 cat << 'EOF' >> ~/Caddyfile
@@ -68,6 +68,8 @@ if [[ $REPLY = y* ]]; then
   cd
   caddy start
 fi
+
+echo "If you want to change the Caddyfile, run caddy reload afterwards"
 
 
 # Caddy can be set up as a service: https://caddyserver.com/docs/install#install

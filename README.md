@@ -32,9 +32,3 @@ Replace `EMAIL_ADDR` with an address to send to. You can get a useful testing ad
 To set up Caddy as a reverse proxy and certificates manager:
 
     sudo ./caddy-install.sh
-
-Then edit the Caddyfile, change or remove the domains and IP addresses.
-
-	cd
-	caddy start
-	# or caddy start --config /path/to/Caddyfile
