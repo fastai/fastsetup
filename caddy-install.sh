@@ -25,6 +25,7 @@ if [[ $REPLY = y* ]]; then
   [[ -z $CADDYUSER ]] && read -e -p "Enter user for HTTP auth: " CADDYUSER
   [[ -z $CADDYPASSWD ]] && read -e -p "Enter password for HTTP auth: " CADDYPASSWD
   export CADDYHASHED=$(caddy hash-password --plaintext "$CADDYPASSWD")
+  # need to check this does not break because of newlines
   CADDYAUTH=$(cat <<EOF
   # basic auth for the server, to change it:
   # 1. run the command: caddy hash-password
