@@ -46,7 +46,7 @@ DOMAIN=${DOMAIN#"www."}
 
 grep -q $DOMAIN ~/Caddyfile && fail "This domain already exists in the Caddyfile"
 
-cat << 'EOF' >> ~/Caddyfile
+cat >> ~/Caddyfile << EOF
 $DOMAIN {
   encode zstd gzip
 
