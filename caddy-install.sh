@@ -9,9 +9,11 @@ sudo apt update
 
 # install caddy
 # source: https://caddyserver.com/docs/download#debian-ubuntu-raspbian
-sudo tee -a /etc/apt/sources.list.d/caddy-fury.list <<EOF 
+if [[ ! -a /etc/apt/sources.list.d/caddy-fury.list ]]; then
+  sudo tee -a /etc/apt/sources.list.d/caddy-fury.list <<EOF 
 deb [trusted=yes] https://apt.fury.io/caddy/ /
 EOF
+fi
 
 sudo apt update
 sudo apt install -y caddy
@@ -27,6 +29,8 @@ fi
 # strip www. prefix from the domain name if it exists
 DOMAIN=${DOMAIN#"www."}
 [[ -z $UPSTREAMPORT ]] && read -e -p "Enter the port where your app is running: " UPSTREAMPORT
+
+grep -q $DOMAIN ~/Caddyfile && fail "This domain already exists in the Caddyfile"
 
 cat << 'EOF' >> ~/Caddyfile
 $DOMAIN {
