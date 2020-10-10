@@ -107,6 +107,9 @@ systemctl reload ssh
 # This is often used to setup passwordless sudo; so disable it
 rm -f /etc/sudoers.d/90-cloud-init-users
 
+# If you attach a new port to the instance on an openstack cloud, this will bring it up and will attempt to obtain IP address via DHCP
+sudo cp 01-netcfg.yaml /etc/netplan
+
 # Enable firewall and allow ssh
 ufw default deny incoming
 ufw default allow outgoing
