@@ -12,9 +12,7 @@ if [[ -s ~/.vimrc ]]; then
   vim -T dumb  -n -i NONE -es -S <(echo -e "silent! PluginInstall\nqall")
 fi                                                                              
 echo "source ~/.bashrc.local" >> ~/.bashrc
-if [ ! -f ~/.bash_profile ] || ! cat ~/.bash_profile | grep -q 'source ~/.bashrc'; then
-  echo "source ~/.bashrc" >> ~/.bash_profile;
-fi
+grep -q 'source ~/.bashrc' ~/.bash_profile 2&> 1 || echo "source ~/.bashrc" >> ~/.bash_profile;
 . ~/.bashrc
 
 
