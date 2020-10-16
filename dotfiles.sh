@@ -12,8 +12,14 @@ if [[ -s ~/.vimrc ]]; then
   vim -T dumb  -n -i NONE -es -S <(echo -e "silent! PluginInstall\nqall")
 fi                                                                              
 echo "source ~/.bashrc.local" >> ~/.bashrc
-echo "source ~/.bashrc" >> ~/.bash_profile
+if [ ! -f ~/.bash_profile ] || ! cat ~/.bash_profile | grep -q 'source ~/.bashrc'; then
+  echo "source ~/.bashrc" >> ~/.bash_profile;
+fi
 . ~/.bashrc
+
+
+
+
 
 [[ -z $NAME  ]] && read -e -p "Enter your name (for git configuration): " NAME
 [[ -z $EMAIL ]] && read -e -p "Enter your email (for git configuration): " EMAIL
