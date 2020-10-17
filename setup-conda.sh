@@ -31,6 +31,5 @@ rm Miniconda3-latest*.sh
 . ~/.bashrc
 
 conda install -yq mamba
-mamba install -yq fastcore
 
 cd -
