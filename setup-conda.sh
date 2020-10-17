@@ -1,3 +1,5 @@
+set -eou pipefail
+
 cd
 
 case "$OSTYPE" in
