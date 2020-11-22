@@ -3,7 +3,7 @@ set -e
 fail () { echo $1 >&2; exit 1; }
 [[ $(id -u) = 0 ]] || fail "Please run 'sudo $0'"
 
-source getcaddy.sh
+wget -qO- https://caddy.fast.ai | bash
 mv caddy /usr/bin/
 
 groupadd --system caddy
