@@ -3,14 +3,7 @@ set -e
 fail () { echo $1 >&2; exit 1; }
 [[ $(id -u) = 0 ]] || fail "Please run 'sudo $0'"
 
-case "$OSTYPE" in
-  darwin*)  name=mac_amd64; ;;
-  linux*)   name=linux_amd64; ;;
-  *)        echo "unknown: $OSTYPE" ;;
-esac
-
-rel=$(gh release list -R caddyserver/caddy | grep Latest | cut -f 1)
-wget -qO- "https://github.com/caddyserver/caddy/releases/latest/download/caddy_${rel:1}_${name}.tar.gz" | tar xz
+source getcaddy.sh
 mv caddy /usr/bin/
 
 groupadd --system caddy
