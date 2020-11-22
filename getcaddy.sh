@@ -7,5 +7,5 @@ case "$OSTYPE" in
   *)        echo "unknown: $OSTYPE" ;;
 esac
 
-rel=$(gh release list -R caddyserver/caddy | grep Latest | cut -f 1)
+rel=$(wget -qO- https://api.github.com/repos/caddyserver/caddy/releases/latest | jq -r '.assets | .[] | select(.name | contains ("${name}"))  | .browser_download_url')
 wget -qO- "https://github.com/caddyserver/caddy/releases/latest/download/caddy_${rel:1}_${name}.tar.gz" | tar xz
