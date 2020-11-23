@@ -5,6 +5,8 @@ fail () { echo $1 >&2; exit 1; }
 
 wget -qO- https://caddy.fast.ai | bash
 mv caddy /usr/bin/
+wget -q https://github.com/caddyserver/dist/blob/master/init/caddy.service
+mv caddy.service /etc/systemd/system/
 
 groupadd --system caddy
 useradd --system --gid caddy --create-home --home-dir /var/lib/caddy --shell /usr/sbin/nologin caddy
