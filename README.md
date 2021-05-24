@@ -11,7 +11,7 @@ sudo ./ubuntu-initial.sh
 # wait a couple of minutes for reboot, then ssh back in
 ```
 
-Then set up [dotfiles](https://github.com/fastai/dotfiles):
+Then, optionally, set up [dotfiles](https://github.com/fastai/dotfiles):
 
     source dotfiles.sh
 
