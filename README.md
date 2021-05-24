@@ -18,6 +18,8 @@ Then, optionally, set up [dotfiles](https://github.com/fastai/dotfiles):
 ...and set up conda:
 
     source setup-conda.sh
+    . ~/.bashrc
+    conda install -yq mamba
 
 To set up email:
 
