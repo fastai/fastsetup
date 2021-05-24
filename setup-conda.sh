@@ -18,7 +18,7 @@ esac
 cat << EOF > .condarc
 channels:
   - fastai
-  - pytorch
+  - fastchan
   - defaults
 channel_priority: strict
 EOF
@@ -27,9 +27,5 @@ wget -q $DOWNLOAD
 bash Miniconda3-latest*.sh -b
 ~/miniconda3/bin/conda init $SHELL_NAME
 rm Miniconda3-latest*.sh
-
-. ~/.bashrc
-
-conda install -yq mamba
 
 cd -
