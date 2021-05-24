@@ -17,9 +17,11 @@ Then, optionally, set up [dotfiles](https://github.com/fastai/dotfiles):
 
 ...and set up conda:
 
-    source setup-conda.sh
-    . ~/.bashrc
-    conda install -yq mamba
+```
+source setup-conda.sh
+. ~/.bashrc
+conda install -yq mamba
+```
 
 To set up email:
 
@@ -30,3 +32,12 @@ To test email, create a text file `msg` containing a message to send, then send 
     cat msg |  mail -r "x@$(hostname -d)" -s 'subject' EMAIL_ADDR
 
 Replace `EMAIL_ADDR` with an address to send to. You can get a useful testing address from [mail-tester](https://www.mail-tester.com/).
+
+To install NVIDIA drivers, if required:
+
+```
+ubuntu-drivers devices
+sudo apt-fast install -y nvidia-XXX
+sudo modprobe nvidia
+nvidia-smi
+```
