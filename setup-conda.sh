@@ -18,14 +18,11 @@ case "$SHELL" in
   *)        echo "unknown: $SHELL" ;;
 esac
 
-wget -q $DOWNLOAD
+echo Downloading installer...
+curl -LO --no-progress-meter $DOWNLOAD
 bash Mambaforge-*.sh -b
 
 ~/mambaforge/bin/conda init $SHELL_NAME
-
-cat << EOF > ~/.condarc
-channel_priority: strict
-EOF
 
 echo Please close and reopen your terminal.
 
