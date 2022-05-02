@@ -23,7 +23,7 @@ bash Mambaforge-*.sh -b
 
 ~/mambaforge/bin/conda init $SHELL_NAME
 
-cat << EOF > .condarc
+cat << EOF > ~/.condarc
 channel_priority: strict
 EOF
 
