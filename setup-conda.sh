@@ -1,11 +1,14 @@
+#!/usr/bin/env bash
 set -eou pipefail
 
-cd
-
 case "$OSTYPE" in
-  darwin*)  DOWNLOAD=https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh; ;;
-  linux*)   DOWNLOAD=https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh; ;;
-  *)        echo "unknown: $OSTYPE" ;;
+  darwin*)
+    case $(uname -m) in
+      arm64)  DOWNLOAD=https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh; ;;
+      *)      DOWNLOAD=https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh; ;;
+    esac ;;
+  linux*)     DOWNLOAD=https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh; ;;
+  *)          echo "unknown: $OSTYPE" ;;
 esac
 
 case "$SHELL" in
@@ -15,17 +18,14 @@ case "$SHELL" in
   *)        echo "unknown: $SHELL" ;;
 esac
 
+wget -q $DOWNLOAD
+bash Mambaforge-*.sh -b
+
+~/mambaforge/bin/conda init $SHELL_NAME
+
 cat << EOF > .condarc
-channels:
-  - fastai
-  - fastchan
-  - defaults
 channel_priority: strict
 EOF
 
-wget -q $DOWNLOAD
-bash Miniconda3-latest*.sh -b
-~/miniconda3/bin/conda init $SHELL_NAME
-rm Miniconda3-latest*.sh
+echo Please close and reopen your terminal.
 
-cd -
