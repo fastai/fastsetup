@@ -7,7 +7,11 @@ case "$OSTYPE" in
       arm64)  DOWNLOAD=https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh; ;;
       *)      DOWNLOAD=https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh; ;;
     esac ;;
-  linux*)     DOWNLOAD=https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh; ;;
+  linux*)
+    case $(uname -m) in
+      aarch64) DOWNLOAD=https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh; ;;
+      *)       DOWNLOAD=https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh; ;;
+      esac ;;
   *)          echo "unknown: $OSTYPE" ;;
 esac
 
