@@ -12,9 +12,9 @@ case "$OSTYPE" in
 esac
 
 case "$SHELL" in
-  /bin/zsh*)   SHELL_NAME=zsh; ;;
-  /bin/bash*)  SHELL_NAME=bash ;;
-  /usr/local/bin/fish*) SHELL_NAME=fish ;;
+  *bin/zsh*)   SHELL_NAME=zsh; ;;
+  *bin/bash*)  SHELL_NAME=bash ;;
+  *bin/fish*) SHELL_NAME=fish ;;
   *)        echo "unknown: $SHELL" ;;
 esac
 
