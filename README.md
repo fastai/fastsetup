@@ -46,13 +46,15 @@ To test email, create a text file `msg` containing a message to send, then send 
 
 Replace `EMAIL_ADDR` with an address to send to. You can get a useful testing address from [mail-tester](https://www.mail-tester.com/).
 
+## NVIDIA drivers
+
 To install NVIDIA drivers, if required:
 
 ### non-WSL-only:
 
 ```
 ubuntu-drivers devices
-sudo apt-fast install -y nvidia-XXX
+sudo apt-fast install -y nvidia-XXX{-server}
 sudo modprobe nvidia
 nvidia-smi
 ```
