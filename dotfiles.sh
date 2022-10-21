@@ -11,8 +11,15 @@ if [[ -s ~/.vimrc ]]; then
   git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
   vim +PluginInstall +qall
 fi
-echo "source ~/.bashrc.local" >> ~/.bashrc
-grep -q 'source ~/.bashrc' ~/.bash_profile 2&> 1 || echo "source ~/.bashrc" >> ~/.bash_profile;
+if [[ -f ~/.bashrc.local ]]; then
+  echo "source ~/.bashrc.local" >> ~/.bashrc
+fi
+if [[ -f ~/.bash_profile ]]; then
+  grep -q 'source ~/.bashrc' ~/.bash_profile 2>&1 || echo "source ~/.bashrc" >> ~/.bash_profile;
+else
+  echo "Creating '.bash_profile'..."
+  echo "source ~/.bashrc" >> ~/.bash_profile
+fi
 . ~/.bashrc
 
 [[ -z $NAME  ]] && read -e -p "Enter your name (for git configuration): " NAME
