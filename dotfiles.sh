@@ -9,7 +9,7 @@ config checkout
 config config --local status.showUntrackedFiles no
 if [[ -s ~/.vimrc ]]; then
   git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-  vim -T dumb  -n -i NONE -es -S <(echo -e "silent! PluginInstall\nqall")
+  vim +PluginInstall +qall
 fi
 echo "source ~/.bashrc.local" >> ~/.bashrc
 grep -q 'source ~/.bashrc' ~/.bash_profile 2&> 1 || echo "source ~/.bashrc" >> ~/.bash_profile;
