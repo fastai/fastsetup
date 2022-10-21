@@ -3,21 +3,17 @@ shopt -s expand_aliases
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 echo ".cfg" >> .gitignore
 read -e -p "Please paste a HTTPS link to your dotfiles repository (or press enter to use defaults): " DOTFILES_URL
-[[ -z $DOTFILES_URL ]] && DOTFILES_URL=https://github.com/fastai/dotfiles.git 
+[[ -z $DOTFILES_URL ]] && DOTFILES_URL=https://github.com/fastai/dotfiles.git
 git clone --bare $DOTFILES_URL .cfg/
 config checkout
 config config --local status.showUntrackedFiles no
-if [[ -s ~/.vimrc ]]; then                                                      
+if [[ -s ~/.vimrc ]]; then
   git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
   vim -T dumb  -n -i NONE -es -S <(echo -e "silent! PluginInstall\nqall")
-fi                                                                              
+fi
 echo "source ~/.bashrc.local" >> ~/.bashrc
 grep -q 'source ~/.bashrc' ~/.bash_profile 2&> 1 || echo "source ~/.bashrc" >> ~/.bash_profile;
 . ~/.bashrc
-
-
-
-
 
 [[ -z $NAME  ]] && read -e -p "Enter your name (for git configuration): " NAME
 [[ -z $EMAIL ]] && read -e -p "Enter your email (for git configuration): " EMAIL
