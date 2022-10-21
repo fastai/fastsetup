@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 set -e
 fail () { echo $1 >&2; exit 1; }
-[[ $(id -u) = 0 ]] || [[ -z $SUDO_USER ]] || fail "Please run 'sudo $0'"
+if [[ $(id -u) -ne 0 ]] || [[ -z $SUDO_USER ]]; then
+    fail "Please run 'sudo $0'"
+fi
+if ! [[ $(grep -i Microsoft /proc/version) ]]; then
+    fail "NOT running on WSL, try running 'sudo ./ubuntu-initial.sh'"
+fi
 
 echo 'Defaults        timestamp_timeout=3600' >> /etc/sudoers
 

@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 set -e
 fail () { echo $1 >&2; exit 1; }
-[[ $(id -u) = 0 ]] || [[ -z $SUDO_USER ]] || fail "Please run 'sudo $0'"
+if [[ $(id -u) -ne 0 ]] || [[ -z $SUDO_USER ]]; then
+    fail "Please run 'sudo $0'"
+fi
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+    fail "Running on WSL, try running 'sudo ./ubuntu-wsl.sh'"
+fi
 
 [[ -z $NEWHOST ]] && read -e -p "Enter hostname to set: " NEWHOST
 [[ $NEWHOST = *.*.* ]] || fail "hostname must contain two '.'s"
