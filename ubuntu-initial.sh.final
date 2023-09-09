@@ -50,11 +50,6 @@ gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/apt-fast-keyri
 chmod go+r /usr/share/keyrings/apt-fast-keyring.gpg
 CODENAME=$(lsb_release -cs)
 echo "deb [signed-by=/usr/share/keyrings/apt-fast-keyring.gpg] http://ppa.launchpad.net/apt-fast/stable/ubuntu $CODENAME main" | sudo tee /etc/apt/sources.list.d/apt-fast.list
-cat >> /etc/apt/sources.list << EOF
-deb http://ppa.launchpad.net/apt-fast/stable/ubuntu $CODENAME main
-EOF
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1EE2FF37CA8DA16B
-apt-get -qy install curl
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
