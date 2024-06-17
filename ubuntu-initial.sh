@@ -17,7 +17,7 @@ grep -q $NEWHOST /etc/hosts || echo "127.0.0.1 $NEWHOST" >> /etc/hosts
 if [[ $SUDO_USER = "root" ]]; then
   echo "You are running as root, so let's create a new user for you"
   [[ $NEWUSER ]] && SUDO_USER=$NEWUSER || read -e -p "Please enter the username for your new user: " SUDO_USER
-  [[ -z $SUDO_USER ]] || fail Empty username not permitted
+  [[ -n $SUDO_USER ]] || fail Empty username not permitted
   adduser $SUDO_USER --gecos ''
   usermod -aG sudo $SUDO_USER
   HOME=/home/$SUDO_USER
