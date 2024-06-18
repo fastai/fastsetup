@@ -21,7 +21,7 @@ Then, optionally, set up [dotfiles](https://github.com/fastai/dotfiles):
 ```
 source setup-conda.sh
 . ~/.bashrc
-conda install -yq mamba
+conda install -yq mamba -c conda-forge
 ```
 
 To set up email:
