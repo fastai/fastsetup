@@ -5,6 +5,7 @@ First, do basic ubuntu configuration, such as updating packages, and turning on 
 
 ```
 sudo apt update && sudo apt -y install git
+# `sudo apt upgrade` a this point solved subsequent problems for some version of Ubuntu
 git clone https://github.com/fastai/fastsetup.git
 cd fastsetup
 sudo ./ubuntu-initial.sh
