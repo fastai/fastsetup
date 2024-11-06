@@ -76,7 +76,7 @@ apt-fast -qy install python3
 apt-fast -qy install vim-nox python3-powerline rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git build-essential \
   software-properties-common curl grep sed dpkg libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 \
   python3-pip python3-dev dos2unix gh pigz ufw bash-completion ubuntu-release-upgrader-core unattended-upgrades cpanminus libmime-lite-perl \
-  opensmtpd mailutils cron
+  opensmtpd mailutils cron isc-dhcp-client
 env DEBIAN_FRONTEND=noninteractive APT_LISTCHANGES_FRONTEND=mail apt-fast full-upgrade -qy -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'
 sudo apt -qy autoremove
 
@@ -128,8 +128,6 @@ ufw default deny incoming
 ufw default allow outgoing
 ufw allow ssh
 ufw --force enable
-
-python -m pip install pip -Uq
 
 echo 'We need to reboot your machine to ensure kernel upgrades are installed'
 echo 'First, make sure you can login in a new terminal, and that you can run `sudo -i`.'
