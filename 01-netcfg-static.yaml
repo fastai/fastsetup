@@ -1,0 +1,14 @@
+network:
+    version: 2
+    renderer: networkd
+    ethernets:
+        eth:
+            match:
+                name: en*
+            addresses:
+              - xxx.xxx.xxx.xxx/29
+            routes:
+              - to: default
+                via: xxx.xxx.xxx.1
+            nameservers:
+              addresses: [8.8.8.8, 8.8.4.4]
